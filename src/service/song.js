@@ -16,8 +16,12 @@ export function processSongs(songs) {
       song.url = map[song.mid]
       return song
     })
-    const filtered = withUrl.filter((song) => song.url && song.url.indexOf('vkey') > -1)
-    // 无有效播放链接时仍返回歌曲列表，便于展示（播放会失败）
+    // 有效播放链：完整 http(s) 且含音频路径或鉴权参数（QQ 返回格式会变，不再强依赖 vkey 子串）
+    const hasPlayableUrl = (u) =>
+      typeof u === 'string' &&
+      /^https?:\/\//.test(u) &&
+      (u.includes('vkey') || u.includes('qqmusic') || /\.(m4a|mp3|aac|flac)/i.test(u))
+    const filtered = withUrl.filter((song) => song.url && hasPlayableUrl(song.url))
     return filtered.length > 0 ? filtered : withUrl
   })
 }

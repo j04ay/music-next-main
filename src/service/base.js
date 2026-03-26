@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const ERR_OK = 0
 const baseURL = process.env.NODE_ENV === 'production'
-  ? 'https://music-next-main-api.vercel.app'  // 👈 改成你的 Vercel 主域名
+  ? 'https://music-next-main-api.vercel.app' // 👈 改成你的 Vercel 主域名
   : '/'
 axios.defaults.baseURL = baseURL
 
